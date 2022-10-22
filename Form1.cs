@@ -142,21 +142,37 @@ namespace RS232ReadandWriteApp
             {
                 //Setting the Serial Port parameter
                 port_printer.PortName = "COM3";
-                port_printer.BaudRate = 4800;
+                port_printer.BaudRate = 300;
                 port_printer.DataBits = 8;
                 port_printer.StopBits = StopBits.One;
+
+                //set the read/write timeouts
+                port_printer.ReadTimeout = 500;
+                port_printer.WriteTimeout = 500;
 
                 //Open the port
                 port_printer.Open();
 
                 status_receiving = true;
-                byte[] hex_ini = { 0x1B, 0x1B, 0x52, 0x0D };
-                byte[] hex_paper = { 0x1B, 0x1B, 0x4C, 0x52, 0x31, 0x0D };
-                byte[] hex = { 0x1B, 0x1B, 0x50, 0x42, 0x31 };
-                port_printer.Write(hex_ini, 0, hex_ini.Length);
-                port_printer.Write(hex_paper, 0, hex_paper.Length);
-                port_printer.Write(hex, 0, hex.Length);
-            
+                try
+                {
+                    byte[] hex_ini = { 0x1B, 0x1B, 0x52, 0x0D };
+                    byte[] hex_paper = { 0x1B, 0x1B, 0x4C, 0x42, 0x39, 0x0D };
+                    byte[] hex = { 0x1B, 0x1B, 0x50, 0x42, 0x31 };
+                    port_printer.Write(hex_ini, 0, hex_ini.Length);
+                    port_printer.Write(hex_paper, 0, hex_paper.Length);
+                    port_printer.Write(hex, 0, hex.Length);
+
+                    byte[] dec_ini = { 27, 27, 82, 13 };
+                    byte[] dec_paper = { 27, 27, 76, 68, 57, 13 };
+                    byte[] dec = { };
+                    port_printer.Write(dec_ini, 0, dec_ini.Length);
+                    port_printer.Write(dec_paper, 0, dec_paper.Length);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
             
         

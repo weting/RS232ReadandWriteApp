@@ -38,9 +38,11 @@ namespace RS232ReadandWriteApp
             // 
             // port_printer
             // 
-            this.port_printer.BaudRate = 4800;
+            this.port_printer.BaudRate = 300;
+            this.port_printer.Handshake = System.IO.Ports.Handshake.RequestToSend;
             this.port_printer.PortName = "COM3";
             this.port_printer.ReadTimeout = 500;
+            this.port_printer.RtsEnable = true;
             this.port_printer.WriteTimeout = 500;
             // 
             // btn_connect
